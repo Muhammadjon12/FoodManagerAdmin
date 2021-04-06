@@ -8,6 +8,8 @@ using FoodManagerAdmin.Model;
 
 namespace FoodManagerAdmin.Controler
 {
+
+
     class FoodManager
     {
         private Database.Database database = new Database.Database();
@@ -39,6 +41,7 @@ namespace FoodManagerAdmin.Controler
         public void DataUpdate(int id,string name, double price, string descr, string typefood,byte[] image)
         {
 
+
             Food food = new Food();
 
             try
@@ -60,6 +63,7 @@ namespace FoodManagerAdmin.Controler
             }
 
         }
+        //TODO:You dont need new Food object to delete it. you just need an Id.
         public void ClearData(int id)
         {
 
@@ -78,15 +82,19 @@ namespace FoodManagerAdmin.Controler
             }
 
         }
-        //public object  GetAllFood()
+
+    
+
+        //public object  ReadData()
         //{
 
-        //    database.GetAllFood();
+        //    database.ReadData();
         //    object _table = database.table;
         //    return _table;
         //}
 
         public List<string> ShowFoodTypes()
+
         {
             database.GetTypeFood();
           List<string> list =  database.list;
