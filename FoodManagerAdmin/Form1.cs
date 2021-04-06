@@ -23,7 +23,7 @@ namespace FoodManagerAdmin
         private void Form1_Load(object sender, EventArgs e)
         {
             comboBox1.Text = "Номи таомро интихоб кунед";
-            comboBox1.DataSource = foodManager.ShowTypeFood();
+            comboBox1.DataSource = foodManager.ShowFoodTypes();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -113,7 +113,7 @@ namespace FoodManagerAdmin
             dataGridView1.RowTemplate.Height = 60;
             dataGridView1.AllowUserToAddRows = true;
 
-            dataGridView1.DataSource = foodManager.ReadData();
+            dataGridView1.DataSource = foodManager.GetAllData();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

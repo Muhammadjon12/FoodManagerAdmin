@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 using System.Data;
+using FoodManagerAdmin.Model;
 
 namespace FoodManagerAdmin.Database
 {
@@ -17,6 +18,8 @@ namespace FoodManagerAdmin.Database
         private DataSet set = new DataSet();
 
         public List<string> list = new List<string>();
+
+        public List<Food> ListFood = new List<Food>();
         public Database()
         {
             try
@@ -36,7 +39,36 @@ namespace FoodManagerAdmin.Database
             }
 
         }
+        public Food GetAllFood()
+        {
+            string query = "select id,name,price,typesFood,date,descr from food_table";
+            using (MySqlCommand cmd = new MySqlCommand())
+            {
+                conn.Open();
+                cmd.CommandText = query;
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = conn;
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Food food = new Food();
+                        food.id = reader.GetUInt16(0);
+                        food.name = reader.GetString(1);
+                        food.price = reader.GetDouble(2);
+                        food.typefood = reader.GetString(3);
+                        food.DateTime = reader.GetDateTime(4);
+                        food.descr = reader.GetString(5);
+                      
+                        ListFood.Add(food);
+                    }
+                    
+                }
+                conn.Close();
 
+            }
+            return null;
+        }
         public void Create(Model.Food food)
         {
             using (MySqlCommand cmd = new MySqlCommand())
@@ -97,19 +129,19 @@ namespace FoodManagerAdmin.Database
 
         }
 
-        public void ReadData()
-        {
-            conn.Open();
-            table.Clear();
+        //public void GetAllFood()
+        //{
+        //    conn.Open();
+        //    table.Clear();
 
-            string query = "select id,name,price,typesFood,date,descr,image from food_table";
-            MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
-            adapter.Fill(set);
+        //    string query = "select id,name,price,typesFood,date,descr,image from food_table";
+        //    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+        //    adapter.Fill(set);
 
-            table = set.Tables[0];
-            conn.Close();
+        //    table = set.Tables[0];
+        //    conn.Close();
 
-        }
+        //}
 
         public void GetTypeFood()
         {

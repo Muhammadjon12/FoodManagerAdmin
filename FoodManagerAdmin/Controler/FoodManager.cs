@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FoodManagerAdmin.Model;
 
 namespace FoodManagerAdmin.Controler
 {
@@ -15,7 +16,7 @@ namespace FoodManagerAdmin.Controler
         public void add(string name, double price, string descr, string typefood,Byte[] img, DateTime dateTime)
         {
 
-            Model.Food food = new Model.Food();
+            Food food = new Food();
             try
             {
                 food.name = name;
@@ -38,7 +39,8 @@ namespace FoodManagerAdmin.Controler
         public void DataUpdate(int id,string name, double price, string descr, string typefood,byte[] image)
         {
 
-            Model.Food food = new Model.Food();
+            Food food = new Food();
+
             try
             {
                 food.id = id;
@@ -61,7 +63,7 @@ namespace FoodManagerAdmin.Controler
         public void ClearData(int id)
         {
 
-            Model.Food food = new Model.Food();
+           Food food = new Food();
             try
             {
                 food.id = id;
@@ -76,19 +78,26 @@ namespace FoodManagerAdmin.Controler
             }
 
         }
-        public object  ReadData()
-        {
+        //public object  GetAllFood()
+        //{
 
-            database.ReadData();
-            object _table = database.table;
-            return _table;
-        }
+        //    database.GetAllFood();
+        //    object _table = database.table;
+        //    return _table;
+        //}
 
-        public List<string> ShowTypeFood()
+        public List<string> ShowFoodTypes()
         {
             database.GetTypeFood();
           List<string> list =  database.list;
             return list;
+        }
+
+        public List<Food> GetAllData()
+        {
+            database.GetAllFood();
+          List<Food> _GetAllFood =  database.ListFood;
+            return _GetAllFood;
         }
        
     }
