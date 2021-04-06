@@ -8,7 +8,8 @@ using FoodManagerAdmin.Model;
 
 namespace FoodManagerAdmin.Controler
 {
-
+//TODO:Rename Controler to Controller (double "L")
+//TODO:Remove empty lines please.
 
     class FoodManager
     {
