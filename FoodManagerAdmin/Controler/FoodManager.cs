@@ -7,6 +7,9 @@ using System.Windows.Forms;
 
 namespace FoodManagerAdmin.Controler
 {
+//TODO:Rename Controler to Controller (double "L")
+//TODO:Remove empty lines please.
+
     class FoodManager
     {
         private Database.Database database = new Database.Database();
@@ -37,7 +40,7 @@ namespace FoodManagerAdmin.Controler
         }
         public void DataUpdate(int id,string name, double price, string descr, string typefood,byte[] image)
         {
-
+            //TODO:I dont think you need to create new Food object on order to update it
             Model.Food food = new Model.Food();
             try
             {
@@ -58,6 +61,7 @@ namespace FoodManagerAdmin.Controler
             }
 
         }
+        //TODO:You dont need new Food object to delete it. you just need an Id.
         public void ClearData(int id)
         {
 
@@ -76,6 +80,7 @@ namespace FoodManagerAdmin.Controler
             }
 
         }
+        //TODO:What does this method do. Rename it to more meaningful name
         public object  ReadData()
         {
 
@@ -83,7 +88,7 @@ namespace FoodManagerAdmin.Controler
             object _table = database.table;
             return _table;
         }
-
+        //TODO:ShowFoodTypes()
         public List<string> ShowTypeFood()
         {
             database.GetTypeFood();
