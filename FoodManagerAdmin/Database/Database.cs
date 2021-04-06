@@ -39,6 +39,7 @@ namespace FoodManagerAdmin.Database
 
         public void Create(Model.Food food)
         {
+             //TODO:I think you should include conn to using if its possible (using(conn){...})
             using (MySqlCommand cmd = new MySqlCommand())
             {
                 conn.Open();
