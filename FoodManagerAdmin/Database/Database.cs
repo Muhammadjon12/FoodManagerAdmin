@@ -59,6 +59,7 @@ namespace FoodManagerAdmin.Database
                         food.typefood = reader.GetString(3);
                         food.DateTime = reader.GetDateTime(4);
                         food.descr = reader.GetString(5);
+                        food.image = reader.GetBytes((byte[]),6);
                       
                         ListFood.Add(food);
                     }
@@ -157,6 +158,7 @@ namespace FoodManagerAdmin.Database
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    
                     list.Add(reader[1].ToString());
                 }
                 conn.Close();
