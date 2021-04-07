@@ -19,7 +19,6 @@ namespace FoodManagerAdmin.Database
         public DataTable table = new DataTable();
 
         private List<string> list = new List<string>();
-
         private List<Food> ListFood = new List<Food>();
         public Database()
         {
@@ -40,7 +39,7 @@ namespace FoodManagerAdmin.Database
             }
 
         }
-
+  
         public List<Food> GetAllFood()
         {
             ListFood.Clear();
@@ -67,10 +66,10 @@ namespace FoodManagerAdmin.Database
                     
                      }
                 conn.Close();
-                return ListFood;
-            
-           
+            return ListFood;
+
         }
+   
         public void SaveFood(Food food)
         {
                 conn.Open();
@@ -89,7 +88,6 @@ namespace FoodManagerAdmin.Database
 
 
         }
-
         public void UpdateFood(int id,string name, Double price,string typefood,string descr)
         {
                 conn.Open();
