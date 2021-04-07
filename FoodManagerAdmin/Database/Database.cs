@@ -17,6 +17,7 @@ namespace FoodManagerAdmin.Database
         public DataTable table = new DataTable();
         private DataSet set = new DataSet();
 
+          //TODO: make fields private
         public List<string> list = new List<string>();
 
         public List<Food> ListFood = new List<Food>();
@@ -39,6 +40,7 @@ namespace FoodManagerAdmin.Database
             }
 
         }
+          //TODO: if you call method GET ALL it should return and also should be array or list
         public Food GetAllFood()
         {
             string query = "select id,name,price,typesFood,date,descr from food_table";
@@ -70,6 +72,7 @@ namespace FoodManagerAdmin.Database
             }
             return null;
         }
+          //TODO: its better if you rename method to SaveFood or just Save
         public void Create(Model.Food food)
         {
              //TODO:I think you should include conn to using if its possible (using(conn){...})
@@ -92,7 +95,7 @@ namespace FoodManagerAdmin.Database
             }
 
         }
-
+     //TODO: i think you dont need food reference to update the food. Just food fields like , id,name,descr ...
         public void UpdateData(Model.Food food)
         {
             using (MySqlCommand cmd = new MySqlCommand())
@@ -114,6 +117,7 @@ namespace FoodManagerAdmin.Database
            }
 
          }
+          //TODO: int id as method argument would be enough , no need for Food object reference
         public void DeleteData(Model.Food food)
         {
             using (MySqlCommand cmd = new MySqlCommand())
@@ -144,7 +148,7 @@ namespace FoodManagerAdmin.Database
         //    conn.Close();
 
         //}
-
+//TODO: please rename to GetFoodTypes
         public void GetTypeFood()
         {
             list.Clear();
