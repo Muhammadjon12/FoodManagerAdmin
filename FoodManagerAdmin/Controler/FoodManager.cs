@@ -15,7 +15,7 @@ namespace FoodManagerAdmin.Controler
     {
         private Database.Database database = new Database.Database();
 
-    
+    //TODO: Please name methods with capital letter
         public void add(string name, double price, string descr, string typefood,Byte[] img, DateTime dateTime)
         {
 
@@ -39,9 +39,10 @@ namespace FoodManagerAdmin.Controler
             }
 
         }
+        //TODO: Please rename method to more meaningful name
         public void DataUpdate(int id,string name, double price, string descr, string typefood,byte[] image)
         {
-
+//TODO: make some validation before passing data to the database
 
             Food food = new Food();
 
@@ -64,7 +65,7 @@ namespace FoodManagerAdmin.Controler
             }
 
         }
-        //TODO:You dont need new Food object to delete it. you just need an Id.
+        
         public void ClearData(int id)
         {
 
