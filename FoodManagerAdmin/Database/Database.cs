@@ -13,13 +13,14 @@ namespace FoodManagerAdmin.Database
      class Database
     {
         public MySqlConnection conn;
+        MySqlCommand cmd = new MySqlCommand();
+        MySqlDataReader reader;
 
         public DataTable table = new DataTable();
-        private DataSet set = new DataSet();
 
-        public List<string> list = new List<string>();
+        private List<string> list = new List<string>();
 
-        public List<Food> ListFood = new List<Food>();
+        private List<Food> ListFood = new List<Food>();
         public Database()
         {
             try
@@ -39,17 +40,18 @@ namespace FoodManagerAdmin.Database
             }
 
         }
-        public Food GetAllFood()
+
+        public List<Food> GetAllFood()
         {
-            string query = "select id,name,price,typesFood,date,descr from food_table";
-            using (MySqlCommand cmd = new MySqlCommand())
-            {
+            ListFood.Clear();
+            string query = "select id,name,price,typesFood,date,descr,image from food_table";
+          
                 conn.Open();
                 cmd.CommandText = query;
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = conn;
-                using (MySqlDataReader reader = cmd.ExecuteReader())
-                {
+                reader = cmd.ExecuteReader();
+                
                     while (reader.Read())
                     {
                         Food food = new Food();
@@ -59,24 +61,20 @@ namespace FoodManagerAdmin.Database
                         food.typefood = reader.GetString(3);
                         food.DateTime = reader.GetDateTime(4);
                         food.descr = reader.GetString(5);
-                        food.image = reader.GetBytes((byte[]),6);
+                      //  food.image = (byte[])reader["image"];
                       
                         ListFood.Add(food);
-                    }
                     
-                }
+                     }
                 conn.Close();
-
-            }
-            return null;
+                return ListFood;
+            
+           
         }
-        public void Create(Model.Food food)
+        public void SaveFood(Food food)
         {
-             //TODO:I think you should include conn to using if its possible (using(conn){...})
-            using (MySqlCommand cmd = new MySqlCommand())
-            {
                 conn.Open();
-                cmd.CommandText = "INSERT INTO food_table(name, price,descr,typesFood,image,date) VALUES(@name, @price,@descr,@typesFood,@image,@date)";
+                cmd.CommandText = "INSERT INTO food_table(name, price,typesFood,image,date,descr) VALUES(@name, @price,@typesFood,@image,@date,@descr)";
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = conn;
 
@@ -89,69 +87,45 @@ namespace FoodManagerAdmin.Database
                 cmd.ExecuteNonQuery();
                 conn.Close();
 
-            }
 
         }
 
-        public void UpdateData(Model.Food food)
+        public void UpdateFood(int id,string name, Double price,string typefood,string descr)
         {
-            using (MySqlCommand cmd = new MySqlCommand())
-            {
                 conn.Open();
-                cmd.CommandText = "UPDATE food_table SET NAME=@name,price=@price,typesFood=@typesFood,descr=@descr,image=@image WHERE id = @id";
+                cmd.CommandText = "UPDATE food_table SET name=@name,price=@price,typesFood=@typesFood,descr=@descr WHERE id = @id";
                     cmd.CommandType = CommandType.Text;
                     cmd.Connection = conn;
 
-                cmd.Parameters.Add("@name", MySqlDbType.VarChar).Value = food.name;
-                cmd.Parameters.Add("@price", MySqlDbType.Int16).Value = food.price;
-                cmd.Parameters.Add("@descr", MySqlDbType.VarChar).Value = food.descr;
-                cmd.Parameters.Add("@image", MySqlDbType.Blob).Value = food.descr;
-                cmd.Parameters.Add("@typesFood", MySqlDbType.VarChar).Value = food.typefood;
-                cmd.Parameters.Add("@id", MySqlDbType.Int16).Value = food.id;
+                cmd.Parameters.Add("@name", MySqlDbType.VarChar).Value = name;
+                cmd.Parameters.Add("@price", MySqlDbType.Int16).Value = price;
+                cmd.Parameters.Add("@descr", MySqlDbType.VarChar).Value = descr;
+               // cmd.Parameters.Add("@image", MySqlDbType.Blob).Value = image;
+                cmd.Parameters.Add("@typesFood", MySqlDbType.VarChar).Value = typefood;
+                cmd.Parameters.Add("@id", MySqlDbType.Int16).Value = id;
 
                     cmd.ExecuteNonQuery();
                 conn.Close();
-           }
 
          }
-        public void DeleteData(Model.Food food)
+        public void DeleteFoodByID(int id)
         {
-            using (MySqlCommand cmd = new MySqlCommand())
-            {
                 conn.Open();
                 cmd.CommandText = "DELETE from food_table  WHERE id = @id";
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = conn;
 
-                cmd.Parameters.Add("@id", MySqlDbType.Int16).Value = food.id;
+                cmd.Parameters.Add("@id", MySqlDbType.Int16).Value = id;
 
                 cmd.ExecuteNonQuery();
                 conn.Close();
-            }
 
         }
 
-        //public void GetAllFood()
-        //{
-        //    conn.Open();
-        //    table.Clear();
-
-        //    string query = "select id,name,price,typesFood,date,descr,image from food_table";
-        //    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
-        //    adapter.Fill(set);
-
-        //    table = set.Tables[0];
-        //    conn.Close();
-
-        //}
-
-        public void GetTypeFood()
+        public List<string> GetFoodTypes()
         {
             list.Clear();
-            MySqlDataReader reader;
             string query = "select * from types_food";
-            using (MySqlCommand cmd = new MySqlCommand())
-            {
                 conn.Open();
                 cmd.CommandText = query;
                 cmd.CommandType = CommandType.Text;
@@ -161,11 +135,11 @@ namespace FoodManagerAdmin.Database
                 {
                     
                     list.Add(reader[1].ToString());
+                   
                 }
+                
                 conn.Close();
-            }
-           
-
+                return list;
         }
 
 

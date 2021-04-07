@@ -14,16 +14,16 @@ namespace FoodManagerAdmin
 {
     public partial class Form1 : Form
     {
-         Controler.FoodManager foodManager = new Controler.FoodManager();
+         Controller.FoodManager foodManager = new Controller.FoodManager();
         public Form1()
         {
             InitializeComponent();
         }
-
+   
         private void Form1_Load(object sender, EventArgs e)
         {
             comboBox1.Text = "Номи таомро интихоб кунед";
-            comboBox1.DataSource = foodManager.ShowFoodTypes();
+            comboBox1.DataSource = foodManager.GetFoodTypes();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -44,9 +44,9 @@ namespace FoodManagerAdmin
 
                     double price = double.Parse(textBox2.Text);
 
-                    foodManager.add(name, price, descr, types, imag,dateTime);
-                    Read();
+                    foodManager.Add(name, price, descr, types, imag,dateTime);
                     ClearText();
+                    Read();
                 }
                 else
                 {
@@ -63,9 +63,9 @@ namespace FoodManagerAdmin
         {
             if (idLabel.Text != "")
             {
-                MemoryStream ms = new MemoryStream();
-                pictureBox1.Image.Save(ms, pictureBox1.Image.RawFormat);
-                byte[] imag = ms.ToArray();
+                //MemoryStream ms = new MemoryStream();
+                //pictureBox1.Image.Save(ms, pictureBox1.Image.RawFormat);
+                //byte[] imag = ms.ToArray();
 
                 int id = int.Parse(idLabel.Text);
                 string name = textBox1.Text;
@@ -73,10 +73,10 @@ namespace FoodManagerAdmin
                 string discr = textBox3.Text;
                 string types = comboBox1.Text;
 
-                foodManager.DataUpdate(id,name, price, discr, types,imag);
-                Read();
+                foodManager.UpdateFood(id,name, price, types, discr);
                 ClearText();
-                
+                Read();
+
             }
             else
             {
@@ -91,9 +91,9 @@ namespace FoodManagerAdmin
             if (idLabel.Text != "")
             {
                 int id = int.Parse(idLabel.Text);
-                foodManager.ClearData(id);
-                Read();
+                foodManager.DeleteFood(id);
                 ClearText();
+                Read();
             }
             else
             {
@@ -109,42 +109,30 @@ namespace FoodManagerAdmin
         }
         public void Read()
         {
-            dataGridView1.DataSource = null;
-            dataGridView1.RowTemplate.Height = 60;
-            dataGridView1.AllowUserToAddRows = true;
+            dataGridView.DataSource = null;
+            dataGridView.RowTemplate.Height = 60;
+            dataGridView.AllowUserToAddRows = true;
 
-            dataGridView1.DataSource = foodManager.GetAllData();
+            dataGridView.DataSource = foodManager.GetAllFood();
+            
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
-            DataGridView dataGridView = (DataGridView)sender;
+            //Byte[] img = (byte[])this.dataGridView.CurrentRow.Cells[6].Value;
 
-            try
-            {
-                if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
-                {
-                    Byte[] img = (byte[])dataGridView1.CurrentRow.Cells[6].Value;
-                     
-                    MemoryStream ms = new MemoryStream(img);
-                    pictureBox1.Image = Image.FromStream(ms);
-                    pictureBox1.SizeMode = pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            //MemoryStream ms = new MemoryStream(img);
+            //pictureBox1.Image = Image.FromStream(ms);
+            //pictureBox1.SizeMode = pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
 
-                   idLabel.Text = (dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString());
-                    textBox1.Text = (dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
-                    textBox2.Text = (dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
-                    comboBox1.Text = (dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString());
-                    dateTimePicker1.Text = (dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString());
-                   textBox3.Text = (dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString());
-
-                }
-            }
-            catch (Exception)
-            {
-
-                MessageBox.Show("You don't Click ");
-            }
+            idLabel.Text = (this.dataGridView.Rows[e.RowIndex].Cells[0].Value.ToString());
+            textBox1.Text = (this.dataGridView.Rows[e.RowIndex].Cells[1].Value.ToString());
+            textBox2.Text = (this.dataGridView.Rows[e.RowIndex].Cells[2].Value.ToString());
+            comboBox1.Text = (this.dataGridView.Rows[e.RowIndex].Cells[3].Value.ToString());
+            dateTimePicker1.Text = (this.dataGridView.Rows[e.RowIndex].Cells[4].Value.ToString());
+            textBox3.Text = (this.dataGridView.Rows[e.RowIndex].Cells[5].Value.ToString());
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -181,6 +169,10 @@ namespace FoodManagerAdmin
             dateTimePicker1.Text = "";
             pictureBox1.Image = null;
             label7.Text = "";
+        }
+
+        private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
         }
     }
 }
