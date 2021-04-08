@@ -61,7 +61,8 @@ namespace FoodManagerAdmin.Controller
           List<string> list = database.GetFoodTypes();
             return list;
         }
-
+        
+        //TODO: dont need to add "_" (underscore) on the variables names
         public List<Food> GetAllFood()
         {
             List<Food> _getListFood = database.GetAllFood();
