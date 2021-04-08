@@ -22,24 +22,24 @@ namespace FoodManagerAdmin
    
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBox1.Text = "Номи таомро интихоб кунед";
-            comboBox1.DataSource = foodManager.GetFoodTypes();
+            ListBox.Text = "Номи таомро интихоб кунед";
+            ListBox.DataSource = foodManager.GetFoodTypes();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (idLabel.Text == "")
+            if (ListId.Text == "")
             {
                 MemoryStream ms = new MemoryStream();
 
                 string name = textBox1.Text;
                 string descr = textBox3.Text;
-                string types = comboBox1.Text;
-                DateTime dateTime = dateTimePicker1.Value;
+                string types = ListBox.Text;
+                DateTime dateTime = DataTime.Value;
 
-                if (pictureBox1.Image != null && name != "" && descr != "" && types != "")
+                if (ImageBox.Image != null && name != "" && descr != "" && types != "")
                 {
-                    pictureBox1.Image.Save(ms, pictureBox1.Image.RawFormat);
+                    ImageBox.Image.Save(ms, ImageBox.Image.RawFormat);
                     byte[] imag = ms.ToArray();
 
                     double price = double.Parse(textBox2.Text);
@@ -50,7 +50,7 @@ namespace FoodManagerAdmin
                 }
                 else
                 {
-                    label6.Text = "Майдон ё расм холи аст: Илтимос дохил намоед";
+                    Error.Text = "Майдон ё расм холи аст: Илтимос дохил намоед";
                 }
             }
             else
@@ -59,21 +59,21 @@ namespace FoodManagerAdmin
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void BtnChangeList_Click(object sender, EventArgs e)
         {
-            if (idLabel.Text != "")
+            if (ListId.Text != "")
             {
-                //MemoryStream ms = new MemoryStream();
-                //pictureBox1.Image.Save(ms, pictureBox1.Image.RawFormat);
-                //byte[] imag = ms.ToArray();
+                MemoryStream ms = new MemoryStream();
+                ImageBox.Image.Save(ms, ImageBox.Image.RawFormat);
+                byte[] imag = ms.ToArray();
 
-                int id = int.Parse(idLabel.Text);
+                int id = int.Parse(ListId.Text);
                 string name = textBox1.Text;
                 double price = double.Parse(textBox2.Text);
                 string discr = textBox3.Text;
-                string types = comboBox1.Text;
+                string types = ListBox.Text;
 
-                foodManager.UpdateFood(id,name, price, types, discr);
+                foodManager.UpdateFood(id,name, price, types, discr,imag);
                 ClearText();
                 Read();
 
@@ -86,11 +86,11 @@ namespace FoodManagerAdmin
          
         }
   
-        private void button4_Click(object sender, EventArgs e)
+        private void BtnLossList_Click(object sender, EventArgs e)
         {
-            if (idLabel.Text != "")
+            if (ListId.Text != "")
             {
-                int id = int.Parse(idLabel.Text);
+                int id = int.Parse(ListId.Text);
                 foodManager.DeleteFood(id);
                 ClearText();
                 Read();
@@ -101,7 +101,7 @@ namespace FoodManagerAdmin
             }
         }
   
-        private void button6_Click(object sender, EventArgs e)
+        private void BtnShow_Click(object sender, EventArgs e)
         {
 
             Read();
@@ -109,33 +109,33 @@ namespace FoodManagerAdmin
         }
         public void Read()
         {
-            dataGridView.DataSource = null;
-            dataGridView.RowTemplate.Height = 60;
-            dataGridView.AllowUserToAddRows = true;
+            DataListView.DataSource = null;
+            DataListView.RowTemplate.Height = 60;
+            DataListView.AllowUserToAddRows = true;
 
-            dataGridView.DataSource = foodManager.GetAllFood();
+            DataListView.DataSource = foodManager.GetAllFood();
             
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void ClickList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
-            //Byte[] img = (byte[])this.dataGridView.CurrentRow.Cells[6].Value;
+            Byte[] img = (byte[])this.DataListView.CurrentRow.Cells[6].Value;
 
-            //MemoryStream ms = new MemoryStream(img);
-            //pictureBox1.Image = Image.FromStream(ms);
-            //pictureBox1.SizeMode = pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            MemoryStream ms = new MemoryStream(img);
+            ImageBox.Image = Image.FromStream(ms);
+            ImageBox.SizeMode = ImageBox.SizeMode = PictureBoxSizeMode.StretchImage;
 
-            idLabel.Text = (this.dataGridView.Rows[e.RowIndex].Cells[0].Value.ToString());
-            textBox1.Text = (this.dataGridView.Rows[e.RowIndex].Cells[1].Value.ToString());
-            textBox2.Text = (this.dataGridView.Rows[e.RowIndex].Cells[2].Value.ToString());
-            comboBox1.Text = (this.dataGridView.Rows[e.RowIndex].Cells[3].Value.ToString());
-            dateTimePicker1.Text = (this.dataGridView.Rows[e.RowIndex].Cells[4].Value.ToString());
-            textBox3.Text = (this.dataGridView.Rows[e.RowIndex].Cells[5].Value.ToString());
+            ListId.Text = (this.DataListView.Rows[e.RowIndex].Cells[0].Value.ToString());
+            textBox1.Text = (this.DataListView.Rows[e.RowIndex].Cells[1].Value.ToString());
+            textBox2.Text = (this.DataListView.Rows[e.RowIndex].Cells[2].Value.ToString());
+            ListBox.Text = (this.DataListView.Rows[e.RowIndex].Cells[3].Value.ToString());
+            DataTime.Text = (this.DataListView.Rows[e.RowIndex].Cells[4].Value.ToString());
+            textBox3.Text = (this.DataListView.Rows[e.RowIndex].Cells[5].Value.ToString());
             
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void BtnChooseImge_Click(object sender, EventArgs e)
         {
             OpenFileDialog chooseImage = new OpenFileDialog();
             chooseImage.Filter = "Image Files (*.jpeg;*.bmp;*.png;*.jpg)|*.jpeg;*.bmp;*.png;*.jpg";
@@ -144,8 +144,8 @@ namespace FoodManagerAdmin
 
                 if (chooseImage != null)
                 {
-                    pictureBox1.Image = Image.FromFile(chooseImage.FileName);
-                    pictureBox1.SizeMode = pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                    ImageBox.Image = Image.FromFile(chooseImage.FileName);
+                    ImageBox.SizeMode = ImageBox.SizeMode = PictureBoxSizeMode.StretchImage;
                 }
                 else
                 {
@@ -154,20 +154,20 @@ namespace FoodManagerAdmin
             }
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void BtnCleaner_Click(object sender, EventArgs e)
         {
             ClearText();
         }
 
         public void ClearText()
         {
-            idLabel.Text = "";
+            ListId.Text = "";
             textBox1.Text = "";
             textBox2.Text = "";
             textBox3.Text = "";
-            comboBox1.Text = "Номи таомро интихоб кунед";
-            dateTimePicker1.Text = "";
-            pictureBox1.Image = null;
+            ListBox.Text = "Номи таомро интихоб кунед";
+            DataTime.Text = "";
+            ImageBox.Image = null;
             label7.Text = "";
         }
 

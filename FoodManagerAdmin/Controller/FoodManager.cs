@@ -17,11 +17,11 @@ namespace FoodManagerAdmin.Controller
             Food food = new Food();
             try
             {
-                food.name = name;
-                food.price = price;
-                food.descr = descr;
-                food.typefood = typefood;
-                food.image = img;
+                food.Name = name;
+                food.Price = price;
+                food.Descr = descr;
+                food.Typefood = typefood;
+                food.Image = img;
                 food.DateTime = dateTime;
                 database.SaveFood(food);
 
@@ -34,11 +34,11 @@ namespace FoodManagerAdmin.Controller
             }
 
         }
-        public void UpdateFood(int id,string name, double price, string typefood, string descr)
+        public void UpdateFood(int id,string name, double price, string typefood, string descr,byte[] image)
         {
             if(id != 0 && name !="" && price != 0 && typefood !="" && descr != "")
             {
-                database.UpdateFood(id, name, price, typefood, descr);
+                database.UpdateFood(id, name, price, typefood, descr,image);
             }
             else
             {
@@ -61,12 +61,10 @@ namespace FoodManagerAdmin.Controller
           List<string> list = database.GetFoodTypes();
             return list;
         }
-        
-        //TODO: dont need to add "_" (underscore) on the variables names
         public List<Food> GetAllFood()
         {
-            List<Food> _getListFood = database.GetAllFood();
-            return _getListFood;
+            List<Food> getListFood = database.GetAllFood();
+            return getListFood;
         }
        
     }
