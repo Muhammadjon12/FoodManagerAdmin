@@ -8,7 +8,7 @@ namespace FoodManagerAdmin.Model
 {
   public class Food
     {
-     
+        //TODO: public properites should begin with capital letter. 
         public int id { get; set; }
         public string name { get; set; }
         public double price { get; set; }
